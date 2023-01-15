@@ -1,15 +1,18 @@
 * {
   box-sizing: border-box;
-  color: red;
 }
-:root {
-  --green: rgba(89, 227, 145, 1);
-  --blue: rgba(80, 53, 255, 1);
-  --light-blue: rgba(46, 217, 255, 0.9);
-}
+
+$green: #94d7a2;
+$pink: #f8bcbc;
+$blue: #4d5b9e;
+$dark-blue: #293264;
+$dark-white: #f5f7fb;
+$light-blue: #d6dbf5;
+$light-yellow: #fffad1;
+
 body {
   align-items: center;
-  background: rgba(11, 36, 52, 1);
+  background: $dark-white;
   display: flex;
   font-family: 'Karla', sans-serif;
   justify-content: center;
@@ -19,11 +22,10 @@ body {
 
 main {
   align-items: center;
-  background: rgba(245, 245, 245, 1);
   border-radius: 15px;
-  -webkit-box-shadow: 0px 0px 114px 0px var(--light-blue);
-  -moz-box-shadow: 0px 0px 114px 0px var(--light-blue);
-  box-shadow: 0px 0px 114px 0px var(--light-blue);
+  -webkit-box-shadow: 0px 0px 114px 0px $light-blue;
+  -moz-box-shadow: 0px 0px 114px 0px $light-blue;
+  box-shadow: 0px 0px 114px 0px $light-blue;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -41,13 +43,10 @@ button {
   padding: 10px 20px;
 }
 button.primary {
-  background: var(--blue);
+  background: $blue;
   color: white;
 }
 button.primary:hover {
-  background: var(--light-blue);
+  background: $dark-blue;
   color: white;
-}
-button.primary :active {
-  box-shadow: inset 5px 5px 10px -3px rgba(82, 12, 12, 0.7);
 }
