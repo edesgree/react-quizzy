@@ -82,10 +82,11 @@ button {
   }
 }
 
-.quiz {
+.quiz-questions {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  margin-bottom: 40px;
   .question {
     border-bottom: solid 1px $lighter-blue;
     padding-bottom: 30px;
