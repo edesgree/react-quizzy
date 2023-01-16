@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 export default function Quiz(props) {
   const [quiz, setQuiz] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [quizCompleted, setQuizCompleted] = React.useState(false);
 
   function fetchData() {
     // get quiz from API
@@ -35,7 +36,7 @@ export default function Quiz(props) {
         <div className="quiz-questions">
           {quiz.map((item) => {
             console.log('item', item.question);
-
+            item.choice = 'toto';
             return (
               <Question
                 key={nanoid()}
@@ -46,6 +47,7 @@ export default function Quiz(props) {
                   item.correct_answer,
                   item.incorrect_answers
                 )}
+                user_choice={item.choice}
               />
             );
           })}
