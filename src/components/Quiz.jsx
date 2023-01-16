@@ -3,24 +3,24 @@ import Question from './Question';
 
 export default function Quiz(props) {
   const [quiz, setQuiz] = React.useState([]);
-  console.log('quiz', quiz);
 
   React.useEffect(() => {
     // get quiz from API
     fetch('https://opentdb.com/api.php?amount=1')
       .then((res) => res.json())
       .then((data) => {
-        const quizElements = data.results;
+        // set current quiz with result from api
+        setQuiz(data.results);
+        console.log('quiz', quiz);
         console.log('data.results', data.results);
-        setQuiz(quizElements);
       });
     console.log('i fire once');
   }, []);
+
   function mergeAnswers(correct_answer, incorrect_answers) {
-    let allAnswers = [];
-    allAnswers = incorrect_answers;
+    //let allAnswers = [];
+    let allAnswers = incorrect_answers;
     allAnswers.push(correct_answer);
-    console.log('allAnswers1', allAnswers);
     return allAnswers;
   }
   return (
@@ -34,7 +34,7 @@ export default function Quiz(props) {
               key={item}
               question={item.question}
               correct_answer={item.correct_answer}
-              incorrect_answer={item.incorrect_answers}
+              incorrect_answers={item.incorrect_answers}
               all_answers={mergeAnswers(
                 item.correct_answer,
                 item.incorrect_answers
@@ -43,6 +43,7 @@ export default function Quiz(props) {
           );
         })}
         ****************************
+        {/*
         <Question
           question="How would one say goodbye in Spanish?"
           correct_answer="answer 1"
@@ -77,7 +78,8 @@ export default function Quiz(props) {
           incorrect_answers={['answer 2', 'answer 3']}
           all_answers={['answer 1', 'answer 2', 'answer 3']}
           state="active"
-        />
+        /> 
+        */}
       </div>
       <footer className="quiz-footer">
         <button className="primary">Check answers</button>
