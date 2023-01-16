@@ -1,5 +1,7 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
+import { decode } from 'html-entities';
+
 function Question(props) {
   const [choice, setChoice] = React.useState('');
   const [active, setActive] = React.useState(false);
@@ -27,7 +29,7 @@ function Question(props) {
         value={answer}
         className={choice === answer ? 'active' : ''}
       >
-        {answer}
+        {decode(answer)}
       </button>
     );
   });

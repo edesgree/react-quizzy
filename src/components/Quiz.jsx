@@ -4,22 +4,29 @@ import { nanoid } from 'nanoid';
 import { decode } from 'html-entities';
 
 export default function Quiz(props) {
-  const [quiz, setQuiz] = React.useState([]);
+  const [quizData, setQuizData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [quizCompleted, setQuizCompleted] = React.useState(false);
 
-  function fetchData() {
-    // get quiz from API
-    fetch('https://opentdb.com/api.php?amount=4')
-      .then((res) => res.json())
-      .then((data) => {
-        // set current quiz with result from api
-        setQuiz(data.results);
-        setLoading(false);
-        console.log('quiz', quiz);
-        console.log('data.results', data.results);
+  const fetchData = async () => {
+    const res = await fetch('https://opentdb.com/api.php?amount=4');
+    const data = await res.json();
+
+    const customData = [];
+    data.results.forEach((item) => {
+      customData.push({
+        id: nanoid(),
+        all_answers: mergeAnswers(item.correct_answer, item.incorrect_answers),
+        question: decode(item.question),
+        correct_answer: item.correct_answer,
+        correct: false,
+        selected: null
       });
-  }
+    });
+    setQuizData(customData);
+    setLoading(false);
+  };
+
   React.useEffect(() => {
     fetchData();
     console.log('i fire once');
@@ -31,34 +38,30 @@ export default function Quiz(props) {
   }
   function handleFinalCheck(event) {
     event.preventDefault();
+    console.log('check answers');
   }
-  function HTMLdecode(string) {
-    return { __html: string };
-  }
+  const questionsElements = quizData.map((item) => {
+    console.log('item', item.question);
+    item.choice = 'toto';
+
+    return (
+      <Question
+        key={nanoid()}
+        question={item.question}
+        correct_answer={item.correct_answer}
+        incorrect_answers={item.incorrect_answers}
+        all_answers={item.all_answers}
+        user_choice=""
+      />
+    );
+  });
   return (
     <section className="quiz">
       {loading ? (
         'loading...'
       ) : (
         <div className="quiz-questions">
-          {quiz.map((item) => {
-            console.log('item', item.question);
-            item.choice = 'toto';
-
-            return (
-              <Question
-                key={nanoid()}
-                question={decode(item.question)}
-                correct_answer={item.correct_answer}
-                incorrect_answers={item.incorrect_answers}
-                all_answers={mergeAnswers(
-                  item.correct_answer,
-                  item.incorrect_answers
-                )}
-                user_choice=""
-              />
-            );
-          })}
+          {questionsElements}
           ****************************
           {/*
         <Question
@@ -100,7 +103,9 @@ export default function Quiz(props) {
         </div>
       )}
       <footer className="quiz-footer">
-        <button className="primary">Check answers</button>
+        <button className="primary" onClick={handleFinalCheck}>
+          Check answers
+        </button>
         <p>You scored 3/5 correct answers</p>
       </footer>
     </section>
