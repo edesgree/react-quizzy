@@ -1,13 +1,14 @@
 import React from 'react';
 import Question from './Question';
+import { nanoid } from 'nanoid';
 
 export default function Quiz(props) {
   const [quiz, setQuiz] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
+  function fetchData() {
     // get quiz from API
-    fetch('https://opentdb.com/api.php?amount=1')
+    fetch('https://opentdb.com/api.php?amount=4')
       .then((res) => res.json())
       .then((data) => {
         // set current quiz with result from api
@@ -16,13 +17,14 @@ export default function Quiz(props) {
         console.log('quiz', quiz);
         console.log('data.results', data.results);
       });
+  }
+  React.useEffect(() => {
+    fetchData();
     console.log('i fire once');
   }, []);
 
   function mergeAnswers(correct_answer, incorrect_answers) {
-    //let allAnswers = [];
-    let allAnswers = incorrect_answers;
-    allAnswers.push(correct_answer);
+    let allAnswers = incorrect_answers.concat(correct_answer);
     return allAnswers;
   }
   return (
@@ -36,7 +38,7 @@ export default function Quiz(props) {
 
             return (
               <Question
-                key={item}
+                key={nanoid()}
                 question={item.question}
                 correct_answer={item.correct_answer}
                 incorrect_answers={item.incorrect_answers}
