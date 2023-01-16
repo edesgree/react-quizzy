@@ -16,9 +16,12 @@ export default function Quiz(props) {
       });
     console.log('i fire once');
   }, []);
-  function mergeAnswers(string, array) {
-    const allAnswers = array.push(string);
-    console.log('allAnswers', allAnswers);
+  function mergeAnswers(correct_answer, incorrect_answers) {
+    let allAnswers = [];
+    allAnswers = incorrect_answers;
+    allAnswers.push(correct_answer);
+    console.log('allAnswers1', allAnswers);
+    return allAnswers;
   }
   return (
     <section className="quiz">
@@ -31,9 +34,10 @@ export default function Quiz(props) {
               key={item}
               question={item.question}
               correct_answer={item.correct_answer}
+              incorrect_answer={item.incorrect_answers}
               all_answers={mergeAnswers(
                 item.correct_answer,
-                item.incorrect_answer
+                item.incorrect_answers
               )}
             />
           );
@@ -41,27 +45,37 @@ export default function Quiz(props) {
         ****************************
         <Question
           question="How would one say goodbye in Spanish?"
-          correct_answer="correct_answer"
+          correct_answer="answer 1"
+          incorrect_answers={['answer 2', 'answer 3']}
+          all_answers={['answer 1', 'answer 2', 'answer 3']}
           state=""
         />
         <Question
           question="How would one say goodbye in Spanish?"
-          correct_answer="correct_answer"
+          correct_answer="answer 1"
+          incorrect_answers={['answer 2', 'answer 3']}
+          all_answers={['answer 1', 'answer 2', 'answer 3']}
           state="desactive"
         />
         <Question
           question="How would one say goodbye in Spanish?"
-          correct_answer="correct_answer"
+          correct_answer="answer 1"
+          incorrect_answers={['answer 2', 'answer 3']}
+          all_answers={['answer 1', 'answer 2', 'answer 3']}
           state="desactive correct"
         />
         <Question
           question="How would one say goodbye in Spanish?"
-          correct_answer="correct_answer"
+          correct_answer="answer 1"
+          incorrect_answers={['answer 2', 'answer 3']}
+          all_answers={['answer 1', 'answer 2', 'answer 3']}
           state="desactive wrong"
         />
         <Question
           question="How would one say goodbye in Spanish?"
-          correct_answer="correct_answer"
+          correct_answer="answer 1"
+          incorrect_answers={['answer 2', 'answer 3']}
+          all_answers={['answer 1', 'answer 2', 'answer 3']}
           state="active"
         />
       </div>
