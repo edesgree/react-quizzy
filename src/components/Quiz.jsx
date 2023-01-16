@@ -16,11 +16,14 @@ export default function Quiz(props) {
     data.results.forEach((item) => {
       customData.push({
         id: nanoid(),
-        all_answers: mergeAnswers(item.correct_answer, item.incorrect_answers),
+        all_answers: randomizeAnswers([
+          item.correct_answer,
+          ...item.incorrect_answers
+        ]),
         question: decode(item.question),
         correct_answer: item.correct_answer,
-        correct: false,
-        selected: null
+        user_correct: false,
+        user_choice: null
       });
     });
     setQuizData(customData);
@@ -31,11 +34,8 @@ export default function Quiz(props) {
     fetchData();
     console.log('i fire once');
   }, []);
+  const randomizeAnswers = (arr) => arr.sort(() => Math.random() - 0.5);
 
-  function mergeAnswers(correct_answer, incorrect_answers) {
-    let allAnswers = incorrect_answers.concat(correct_answer);
-    return allAnswers;
-  }
   function handleFinalCheck(event) {
     event.preventDefault();
     console.log('check answers');
