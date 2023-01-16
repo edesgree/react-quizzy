@@ -1,6 +1,7 @@
 import React from 'react';
 import Question from './Question';
 import { nanoid } from 'nanoid';
+import { decode } from 'html-entities';
 
 export default function Quiz(props) {
   const [quiz, setQuiz] = React.useState([]);
@@ -28,6 +29,12 @@ export default function Quiz(props) {
     let allAnswers = incorrect_answers.concat(correct_answer);
     return allAnswers;
   }
+  function handleFinalCheck(event) {
+    event.preventDefault();
+  }
+  function HTMLdecode(string) {
+    return { __html: string };
+  }
   return (
     <section className="quiz">
       {loading ? (
@@ -37,17 +44,18 @@ export default function Quiz(props) {
           {quiz.map((item) => {
             console.log('item', item.question);
             item.choice = 'toto';
+
             return (
               <Question
                 key={nanoid()}
-                question={item.question}
+                question={decode(item.question)}
                 correct_answer={item.correct_answer}
                 incorrect_answers={item.incorrect_answers}
                 all_answers={mergeAnswers(
                   item.correct_answer,
                   item.incorrect_answers
                 )}
-                user_choice={item.choice}
+                user_choice=""
               />
             );
           })}

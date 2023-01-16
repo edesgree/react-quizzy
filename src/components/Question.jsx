@@ -1,15 +1,22 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 function Question(props) {
-  const [choice, setChoice] = React.useState(props.user_choice);
+  const [choice, setChoice] = React.useState('');
   const [active, setActive] = React.useState(false);
+  const [correct, setCorrect] = React.useState(false);
   function handleChoice(event) {
     event.preventDefault();
     setChoice(event.target.value);
     console.log('my choice is: ', choice);
+    setCorrect(checkCorrectAnswer(event.target.value, props.correct_answer));
+    console.log('my choice is: ', correct);
   }
-  function activeToggle(name) {
-    this.setState({ active: name });
+
+  React.useEffect(() => {
+    console.log('click');
+  }, [choice]);
+  function checkCorrectAnswer(choice, correct_answer) {
+    return choice === correct_answer;
   }
   console.log('props.all_answers ', props.all_answers);
   const answersElements = props.all_answers?.map((answer) => {
@@ -35,7 +42,7 @@ function Question(props) {
       <br />
       all answer: {AllElements}
       <br />
-      user choice : {choice}
+      user choice : {choice} | answer is {correct ? 'good' : 'wrong'}
       <div className="question-answers">{answersElements}</div>
     </div>
   );
