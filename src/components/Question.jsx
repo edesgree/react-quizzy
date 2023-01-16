@@ -2,10 +2,14 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 function Question(props) {
   const [choice, setChoice] = React.useState(props.user_choice);
+  const [active, setActive] = React.useState(false);
   function handleChoice(event) {
     event.preventDefault();
     setChoice(event.target.value);
     console.log('my choice is: ', choice);
+  }
+  function activeToggle(name) {
+    this.setState({ active: name });
   }
   console.log('props.all_answers ', props.all_answers);
   const answersElements = props.all_answers?.map((answer) => {
@@ -14,7 +18,7 @@ function Question(props) {
         key={nanoid()}
         onClick={handleChoice}
         value={answer}
-        className={`answer ${props.state}`}
+        className={choice === answer ? 'active' : ''}
       >
         {answer}
       </button>
