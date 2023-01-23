@@ -7,11 +7,14 @@ export default function Quiz(props) {
   const [quizData, setQuizData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [quizCompleted, setQuizCompleted] = React.useState(false);
+  const [gameStart, setGameStart] = React.useState(false);
   const [totalScore, setTotalScore] = React.useState(0);
-  const nbQuestions = 5;
+  const nbQuestions = 1;
 
   const fetchData = async () => {
-    const res = await fetch('https://opentdb.com/api.php?amount=4');
+    const res = await fetch(
+      `https://opentdb.com/api.php?amount=${nbQuestions}`
+    );
     const data = await res.json();
 
     const customData = [];
@@ -35,18 +38,25 @@ export default function Quiz(props) {
   React.useEffect(() => {
     fetchData();
     console.log('i fire once');
+
+    console.log('quizCompleted', quizCompleted);
   }, []);
   const randomizeAnswers = (arr) => arr.sort(() => Math.random() - 0.5);
 
   // check if answers are correct or not
   function handleFinalCheck(event) {
     event.preventDefault();
+    setQuizCompleted(true);
     console.log('check answers');
+    console.log('quizCompleted end', quizCompleted);
   }
 
   // restart game
   function handleRestart() {
-    //
+    props.start;
+    setQuizCompleted(false);
+    setLoading(true);
+    fetchData();
   }
   // update quizData to show what the user chose
   function handleUserChoice(id, selectedAnswer) {
@@ -59,9 +69,6 @@ export default function Quiz(props) {
   }
   // question elements rendering
   const questionsElements = quizData.map((item) => {
-    console.log('item', item.question);
-    item.choice = 'toto';
-
     return (
       <Question
         key={item.id}
@@ -71,6 +78,8 @@ export default function Quiz(props) {
         incorrect_answers={item.incorrect_answers}
         all_answers={item.all_answers}
         handleUserChoice={handleUserChoice}
+        user_choice={item.user_choice}
+        quiz_completed={quizCompleted}
       />
     );
   });
@@ -79,10 +88,11 @@ export default function Quiz(props) {
       {loading ? (
         'loading...'
       ) : (
-        <div className="quiz-questions">
-          {questionsElements}
-          ****************************
-          {/*
+        <div>
+          <div className="quiz-questions">
+            {questionsElements}
+            ****************************
+            {/*
         <Question
           question="How would one say goodbye in Spanish?"
           correct_answer="answer 1"
@@ -119,25 +129,27 @@ export default function Quiz(props) {
           state="active"
         /> 
         */}
+          </div>
+
+          <footer className="quiz-footer">
+            {!quizCompleted && (
+              <button className="primary" onClick={handleFinalCheck}>
+                Check answers
+              </button>
+            )}
+            {quizCompleted && (
+              <div>
+                <button className="primary" onClick={handleRestart}>
+                  Start new game
+                </button>
+                <p>
+                  You scored {totalScore}/{nbQuestions} correct answers
+                </p>
+              </div>
+            )}
+          </footer>
         </div>
       )}
-      <footer className="quiz-footer">
-        {!quizCompleted && (
-          <button className="primary" onClick={handleFinalCheck}>
-            Check answers
-          </button>
-        )}
-        {quizCompleted && (
-          <div>
-            <button className="primary" onClick={handleRestart}>
-              Start new game
-            </button>
-            <p>
-              You scored {totalScore}/{nbQuestions} correct answers
-            </p>
-          </div>
-        )}
-      </footer>
     </section>
   );
 }

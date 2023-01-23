@@ -12,23 +12,48 @@ function Question(props) {
     console.log('my choice is: ', choice);
     setCorrect(checkCorrectAnswer(event.target.value, props.correct_answer));
     console.log('my correctness is: ', correct);
-    props.handleUserChoice(props.id, choice);
+    // update quiz object with choice
+    props.handleUserChoice(props.id, event.target.value);
   }
 
   React.useEffect(() => {
     console.log('click');
+    console.log('props.quiz_completed', props.quiz_completed);
   }, [choice]);
   function checkCorrectAnswer(choice, correct_answer) {
     return choice === correct_answer;
   }
   console.log('props.all_answers ', props.all_answers);
   const answersElements = props.all_answers?.map((answer) => {
+    function getButtonStyle() {
+      let style = null;
+      if (!props.quiz_completed) {
+        if (answer === choice) {
+          style = 'active';
+        }
+      } else {
+        style = 'desactive ';
+        if (answer === props.correct_answer) {
+          style += 'correct';
+        } else if (answer === props.user_choice) {
+          style += 'wrong';
+        } else {
+          style += 'not-selected';
+        }
+      }
+      return style;
+    }
+
     return (
       <button
         key={nanoid()}
         onClick={handleChoice}
         value={answer}
-        className={choice === answer ? 'active' : ''}
+        className={`
+        
+        ${getButtonStyle()} 
+        `}
+        toto={props.quizCompleted}
       >
         {decode(answer)}
       </button>
