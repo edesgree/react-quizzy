@@ -11,7 +11,8 @@ function Question(props) {
     setChoice(event.target.value);
     console.log('my choice is: ', choice);
     setCorrect(checkCorrectAnswer(event.target.value, props.correct_answer));
-    console.log('my choice is: ', correct);
+    console.log('my correctness is: ', correct);
+    props.handleUserChoice(props.id, choice);
   }
 
   React.useEffect(() => {
