@@ -8,12 +8,14 @@ function Question(props) {
   const [correct, setCorrect] = React.useState(false);
   function handleChoice(event) {
     event.preventDefault();
-    setChoice(event.target.value);
-    console.log('my choice is: ', choice);
-    setCorrect(checkCorrectAnswer(event.target.value, props.correct_answer));
-    console.log('my correctness is: ', correct);
-    // update quiz object with choice
-    props.handleUserChoice(props.id, event.target.value);
+    if (choice === '') {
+      setChoice(event.target.value);
+      console.log('my choice is: ', choice);
+      setCorrect(checkCorrectAnswer(event.target.value, props.correct_answer));
+      console.log('my correctness is: ', correct);
+      // update quiz object with choice
+      props.handleUserChoice(props.id, event.target.value);
+    }
   }
 
   React.useEffect(() => {
