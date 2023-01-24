@@ -11,6 +11,8 @@ $light-blue: #d6dbf5;
 $lighter-blue: #dbdef0;
 $light-yellow: #fffad1;
 $grey: #888;
+$purple: rgb(147 30 140);
+$cyan: #00ffb8;
 body {
   align-items: center;
   background: $dark-white;
@@ -66,7 +68,7 @@ button {
     background: $light-blue;
   }
   &.primary {
-    background: $blue;
+    background: $purple;
     border: none;
     color: white;
     &:hover {
@@ -114,4 +116,13 @@ button {
       justify-content: center;
     }
   }
+}
+h1 {
+  background: -webkit-linear-gradient(left, $purple, $cyan);
+  background: -o-linear-gradient(right, $purple, $cyan);
+  background: -moz-linear-gradient(right, $purple, $cyan);
+  background: linear-gradient(to right, $purple, $cyan);
+  -webkit-background-clip: text;
+  font-size: 4em;
+  -webkit-text-fill-color: transparent;
 }
