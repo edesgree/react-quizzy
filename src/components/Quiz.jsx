@@ -9,7 +9,7 @@ export default function Quiz(props) {
   const [quizCompleted, setQuizCompleted] = React.useState(false);
   const [gameStart, setGameStart] = React.useState(false);
   const [totalScore, setTotalScore] = React.useState(0);
-  const nbQuestions = 1;
+  const nbQuestions = 5;
 
   const fetchData = async () => {
     const res = await fetch(
@@ -49,13 +49,24 @@ export default function Quiz(props) {
     setQuizCompleted(true);
     console.log('check answers');
     console.log('quizCompleted end', quizCompleted);
+    let currentScore = 0;
+    quizData.forEach((question) => {
+      console.log('question', question);
+      console.log('question.correct_answer', question.correct_answer);
+      console.log('question.user_choice', question.user_choice);
+      if (question.correct_answer === question.user_choice) {
+        currentScore += 1;
+      }
+    });
+    setTotalScore(currentScore);
   }
 
   // restart game
   function handleRestart() {
     props.start;
-    setQuizCompleted(false);
+    setQuizCompleted((prevState) => !prevState);
     setLoading(true);
+    setTotalScore(0);
     fetchData();
   }
   // update quizData to show what the user chose
