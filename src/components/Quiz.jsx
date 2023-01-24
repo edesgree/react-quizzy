@@ -7,7 +7,7 @@ export default function Quiz(props) {
   const [quizData, setQuizData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [quizCompleted, setQuizCompleted] = React.useState(false);
-  const [gameStart, setGameStart] = React.useState(false);
+  const [gameStartCount, setGameStartCount] = React.useState(0);
   const [totalScore, setTotalScore] = React.useState(0);
   const nbQuestions = 5;
 
@@ -38,38 +38,35 @@ export default function Quiz(props) {
     setLoading(false);
   };
 
+  // each time GameStartCount is updated, a new quiz is rendered with score reset
   React.useEffect(() => {
     fetchData();
-  }, []);
+    setQuizCompleted(false);
+    setLoading(true);
+    setTotalScore(0);
+  }, [gameStartCount]);
+
+  // used to randomize answers array
   const randomizeAnswers = (arr) => arr.sort(() => Math.random() - 0.5);
 
   // check if answers are correct or not
   function handleFinalCheck(event) {
     event.preventDefault();
     setQuizCompleted(true);
-    console.log('check answers');
-    console.log('quizCompleted end', quizCompleted);
     let currentScore = 0;
     quizData.forEach((question) => {
-      console.log('question', question);
-      console.log('question.correct_answer', question.correct_answer);
-      console.log('question.user_choice', question.user_choice);
       if (question.correct_answer === question.user_choice) {
         currentScore += 1;
         question.user_correct = true;
       }
     });
+    // update score
     setTotalScore(currentScore);
-    console.log('quizdata', quizData);
   }
 
-  // restart game
+  // restart game by updating GameStartCount state
   function handleRestart() {
-    props.start;
-    setQuizCompleted((prevState) => !prevState);
-    setLoading(true);
-    setTotalScore(0);
-    fetchData();
+    setGameStartCount((prevCount) => prevCount + 1);
   }
   // update quizData to show what the user chose
   function updateUserChoice(id, selectedAnswer) {
