@@ -26,14 +26,28 @@ body {
 
 main {
   align-items: center;
+
+  animation: grow0 1.5s forwards;
   border-radius: 15px;
   -webkit-box-shadow: 0px 0px 114px 0px $light-blue;
   -moz-box-shadow: 0px 0px 114px 0px $light-blue;
   box-shadow: 0px 0px 114px 0px $light-blue;
   display: flex;
   flex-direction: column;
+  max-width: 650px;
+  min-height: 250px;
+  min-width: 250px;
   padding: 20px;
   text-align: center;
+}
+/*Animate width to 100%*/
+@keyframes grow0 {
+  from {
+    max-width: 250px;
+  }
+  to {
+    max-width: 650px;
+  }
 }
 p {
   text-align: center;

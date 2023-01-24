@@ -56,7 +56,7 @@ function Question(props) {
   return (
     <div className="question">
       <h2 className="question-title">{props.question}</h2>
-      correct_answer: {props.correct_answer}
+      {/*correct_answer: {props.correct_answer}*/}
       <div className="question-answers">{answersElements}</div>
     </div>
   );
