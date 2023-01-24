@@ -111,8 +111,9 @@ button {
       margin-top: 0;
     }
     .question-answers {
-      display: flex;
+      display: grid;
       gap: 15px;
+      grid-template-columns: 1fr 1fr;
       justify-content: center;
     }
   }
