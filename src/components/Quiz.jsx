@@ -40,9 +40,6 @@ export default function Quiz(props) {
 
   React.useEffect(() => {
     fetchData();
-    console.log('i fire once');
-
-    console.log('quizCompleted', quizCompleted);
   }, []);
   const randomizeAnswers = (arr) => arr.sort(() => Math.random() - 0.5);
 
@@ -81,7 +78,6 @@ export default function Quiz(props) {
         return data.id === id ? { ...data, user_choice: selectedAnswer } : data;
       })
     );
-    console.log('handle user choice:', quizData);
   }
   // question elements rendering
   const questionsElements = quizData.map((item) => {
