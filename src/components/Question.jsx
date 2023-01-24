@@ -8,14 +8,12 @@ function Question(props) {
   const [correct, setCorrect] = React.useState(false);
   function handleChoice(event) {
     event.preventDefault();
-    if (choice === '') {
-      setChoice(event.target.value);
-      console.log('my choice is: ', choice);
-      setCorrect(checkCorrectAnswer(event.target.value, props.correct_answer));
-      console.log('my correctness is: ', correct);
-      // update quiz object with choice
-      props.handleUserChoice(props.id, event.target.value);
-    }
+    setChoice(event.target.value);
+    console.log('my choice is: ', choice);
+    setCorrect(checkCorrectAnswer(event.target.value, props.correct_answer));
+    console.log('my correctness is: ', correct);
+    // update quiz object with choice
+    props.updateUserChoice(props.id, event.target.value);
   }
 
   React.useEffect(() => {
@@ -51,24 +49,17 @@ function Question(props) {
         key={nanoid()}
         onClick={handleChoice}
         value={answer}
-        className={`
-        
-        ${getButtonStyle()} 
-        `}
-        toto={props.quizCompleted}
+        className={getButtonStyle()}
       >
         {decode(answer)}
       </button>
     );
   });
-  const wrongElements = props.incorrect_answers?.map((item) => `${item} | `);
   const AllElements = props.all_answers?.map((item) => `${item} | `);
   return (
     <div className="question">
       <h2 className="question-title">{props.question}</h2>
       correct_answer: {props.correct_answer}
-      <br />
-      wrong answer: {wrongElements}
       <br />
       all answer: {AllElements}
       <br />

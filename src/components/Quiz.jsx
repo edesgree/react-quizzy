@@ -12,11 +12,13 @@ export default function Quiz(props) {
   const nbQuestions = 5;
 
   const fetchData = async () => {
+    // get questions from API
     const res = await fetch(
       `https://opentdb.com/api.php?amount=${nbQuestions}`
     );
     const data = await res.json();
 
+    // store data in a custom object
     const customData = [];
     data.results.forEach((item) => {
       customData.push({
@@ -31,6 +33,7 @@ export default function Quiz(props) {
         user_choice: null
       });
     });
+    // set Quiz Data with this custom object
     setQuizData(customData);
     setLoading(false);
   };
@@ -56,9 +59,11 @@ export default function Quiz(props) {
       console.log('question.user_choice', question.user_choice);
       if (question.correct_answer === question.user_choice) {
         currentScore += 1;
+        question.user_correct = true;
       }
     });
     setTotalScore(currentScore);
+    console.log('quizdata', quizData);
   }
 
   // restart game
@@ -70,7 +75,7 @@ export default function Quiz(props) {
     fetchData();
   }
   // update quizData to show what the user chose
-  function handleUserChoice(id, selectedAnswer) {
+  function updateUserChoice(id, selectedAnswer) {
     setQuizData((prevQuizData) =>
       prevQuizData.map((data) => {
         return data.id === id ? { ...data, user_choice: selectedAnswer } : data;
@@ -86,9 +91,8 @@ export default function Quiz(props) {
         id={item.id}
         question={item.question}
         correct_answer={item.correct_answer}
-        incorrect_answers={item.incorrect_answers}
         all_answers={item.all_answers}
-        handleUserChoice={handleUserChoice}
+        updateUserChoice={updateUserChoice}
         user_choice={item.user_choice}
         quiz_completed={quizCompleted}
       />
@@ -100,47 +104,7 @@ export default function Quiz(props) {
         'loading...'
       ) : (
         <div>
-          <div className="quiz-questions">
-            {questionsElements}
-            ****************************
-            {/*
-        <Question
-          question="How would one say goodbye in Spanish?"
-          correct_answer="answer 1"
-          incorrect_answers={['answer 2', 'answer 3']}
-          all_answers={['answer 1', 'answer 2', 'answer 3']}
-          state=""
-        />
-        <Question
-          question="How would one say goodbye in Spanish?"
-          correct_answer="answer 1"
-          incorrect_answers={['answer 2', 'answer 3']}
-          all_answers={['answer 1', 'answer 2', 'answer 3']}
-          state="desactive"
-        />
-        <Question
-          question="How would one say goodbye in Spanish?"
-          correct_answer="answer 1"
-          incorrect_answers={['answer 2', 'answer 3']}
-          all_answers={['answer 1', 'answer 2', 'answer 3']}
-          state="desactive correct"
-        />
-        <Question
-          question="How would one say goodbye in Spanish?"
-          correct_answer="answer 1"
-          incorrect_answers={['answer 2', 'answer 3']}
-          all_answers={['answer 1', 'answer 2', 'answer 3']}
-          state="desactive wrong"
-        />
-        <Question
-          question="How would one say goodbye in Spanish?"
-          correct_answer="answer 1"
-          incorrect_answers={['answer 2', 'answer 3']}
-          all_answers={['answer 1', 'answer 2', 'answer 3']}
-          state="active"
-        /> 
-        */}
-          </div>
+          <div className="quiz-questions">{questionsElements}</div>
 
           <footer className="quiz-footer">
             {!quizCompleted && (
@@ -150,12 +114,12 @@ export default function Quiz(props) {
             )}
             {quizCompleted && (
               <div>
-                <button className="primary" onClick={handleRestart}>
-                  Start new game
-                </button>
                 <p>
                   You scored {totalScore}/{nbQuestions} correct answers
                 </p>
+                <button className="primary" onClick={handleRestart}>
+                  Start new game
+                </button>
               </div>
             )}
           </footer>
