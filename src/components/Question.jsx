@@ -15,8 +15,6 @@ function Question(props) {
   }
 
   React.useEffect(() => {
-    console.log('un choix a ete fait');
-    console.log('props.quiz_completed', props.quiz_completed);
     // update quiz object with choice each time the choice state is changed
     props.updateUserChoice(props.id, choice);
   }, [choice]);

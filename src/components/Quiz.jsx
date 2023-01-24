@@ -9,7 +9,7 @@ export default function Quiz(props) {
   const [quizCompleted, setQuizCompleted] = React.useState(false);
   const [gameStartCount, setGameStartCount] = React.useState(0);
   const [totalScore, setTotalScore] = React.useState(0);
-  const nbQuestions = 5;
+  const nbQuestions = 10;
 
   const fetchData = async () => {
     // get questions from API
