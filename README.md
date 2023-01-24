@@ -3,7 +3,7 @@
 The project is to build a little quizz app in react. It gets its questions from an API.
 It is bootstraped with Vite.js.
 
-🔗 **Live preview:** [here](https://lambent-madeleine-608e47.netlify.app/)
+🔗 **Live preview:** [here](https://astonishing-custard-e140b8.netlify.app/)
 
 ### Screenshot
 
